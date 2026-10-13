@@ -88,6 +88,14 @@ function renderQuestion() {
 
 function handleSelection(event) {
   // TEMPLATE POINT 7: Respond to an answer selection and prepare it to be checked.
+  if (questionLocked) {
+    return;
+  }
+
+  selectedAnswerIndex = Number(event.target.value);
+  nextButton.disabled = false;
+  feedback.textContext = "Now check your answer";
+  feedback.className = "feedback";
 }
 
 function lockChoices() {
@@ -160,6 +168,13 @@ function handlePrimaryAction() {
 
 function restartQuiz() {
   // TEMPLATE POINT 8: Return the quiz to its starting state.
+
+  currentQuestionIndex = 0;
+  score = 0;
+  nextButton.hidden = false;
+  selectedAnswerIndex = null;
+  questionLocked = false;
+  renderQuestion();
 }
 
 // TEMPLATE POINT 6: Connect the quiz controls to their behavior.
