@@ -38,6 +38,8 @@ app.get("/", (req, res) => {
   // TODO 1: Send the text "Hello World".
   // res.status(501).json({ error: "TODO 1: root route" });
   res.send("Hello World");
+  // res.status(501).json({ error: "TODO 1: root route" });
+  res.send("Hello World");
 });
 
 app.get("/api/tweets", (req, res) => {
