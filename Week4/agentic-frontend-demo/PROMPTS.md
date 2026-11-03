@@ -30,7 +30,7 @@ Before suggesting any code changes, tell me:
 ```
 Using the Figma MCP, inspect the TPEO Website 2026 landing page design.
 
-Figma URL: FIGMA_URL
+Figma URL: https://www.figma.com/design/HPtaiqKRNRqtAZMHNIMZcR/TPEO-Website-2026?node-id=35-1345
 
 Summarize:
 1. Major page sections (top to bottom)
@@ -49,7 +49,7 @@ Do not write code yet. Figma is the source of truth — call out anything ambigu
 ```
 Use the tpeo-design-system skill to analyze the Figma design and generate our project design system.
 
-Figma URL: FIGMA_URL
+Figma URL: https://www.figma.com/design/HPtaiqKRNRqtAZMHNIMZcR/TPEO-Website-2026?node-id=35-1345
 
 Write outputs to:
 - docs/DESIGN_SYSTEM.md
