@@ -3,6 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const pbkdf2 = require("pbkdf2");
 const db = require("./firebase");
+const { use } = require("react");
 
 require("dotenv").config();
 
@@ -109,13 +110,68 @@ const hashPassword = (password) => {
 app.post("/register", async (req, res) => {
   // TODO: Validate username/password, reject duplicate users, hash the
   // password, store the user, and return a short-lived JWT.
-  return res.status(501).json({ error: "Registration is not implemented" });
+  const {username, password} = req.body || {};
+  if (typeof username !== "string" || typeof password !== "string" || password.length === 0) {
+    return res.status(400);
+  }
+
+  try {
+    const userRef = db.collection("users").doc(username)
+    const existingUser = await userRef.get();
+    if (existingUser.exists) {
+      return res.status(400);
+    }
+
+    await userRef.set({
+      username,
+      password: hashPassword(password)
+    });
+    const token = jwt.sign({username}, ACCESS_TOKEN_SECRET, {
+      expiresIn: "30s"
+    });
+
+    return res.status(201).json({
+      msg: "Created successfully",
+      data: {username},
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({error: "Registration failed"});
+  }
 });
 
 app.post("/login", async (req, res) => {
   // TODO: Load the user, hash the submitted password, compare the hashes, and
   // return a JWT only when the credentials are correct.
-  return res.status(501).json({ error: "Login is not implemented" });
+  const {username, password} = req.body || {};
+  if (typeof username !== "string" || typeof password !== "string" || password.length === 0) {
+    return res.status(400);
+  }
+
+  try {
+    const snapshot = await db.collection("users").doc()
+    const userRef = db.collection("users").doc(username)
+    const existingUser = await userRef.get();
+    if (existingUser.exists) {
+      return res.status(400);
+    }
+
+    await userRef.set({
+      username,
+      password: hashPassword(password)
+    });
+    const token = jwt.sign({username}, ACCESS_TOKEN_SECRET, {
+      expiresIn: "30s"
+    });
+
+    return res.status(201).json({
+      msg: "Created successfully",
+      data: {username},
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({error: "Registration failed"});
+  }
 });
 
 app.get("/protected", authMiddleware, (req, res) => {
